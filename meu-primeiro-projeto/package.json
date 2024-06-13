@@ -1,0 +1,16 @@
+{
+  "name": "my-project",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "personal": "echo \"Error: \n My personal SCRIPT for NPM execute\" && exit 1"
+  },
+  "keywords": [
+    "project", 
+    "my first API"
+  ],
+  "author": "Thiago Muniz",
+  "license": "ISC",
+  "description": "My first project"
+}
