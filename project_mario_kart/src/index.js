@@ -41,6 +41,7 @@ async function logRollResult(playerName, block, diceResult, att){
     console.log(`${playerName} 🎲 rolou um dado de ${block} ${diceResult} + ${att} = ${diceResult + att}`)
 }
 
+
 async function playRaceEngine(player1, player2) {
     console.log("----------------------------------------------------------------");
     for(let round=1; round<=5; round++){
@@ -75,20 +76,52 @@ async function playRaceEngine(player1, player2) {
         }
 
         if(block === "BATALHA"){
-            totalTestSkill1 = diceResult1 + player1.power
-            totalTestSkill2 = diceResult2 + player2.power
+            let powerResult1 = diceResult1 + player1.power
+            let powerResult2 = diceResult2 + player2.power
+
+            console.log(`${player1.name} batalhou contra ${player2.name}! 🥊`)
+            
+            await logRollResult(player1.name, "POWER", diceResult1, player1.power)
+            await logRollResult(player2.name, "POWER", diceResult2, player2.power)
+
+            if(powerResult1 > powerResult2){
+                if(player2.points > 0){
+                    player2.points--;
+                    console.log(`☠️ ${player2.name} perdeu 1 ponto!`)
+                }
+                console.log(`🏅 ${player1.name} venceu a batalha!`)
+            }
+
+            if(powerResult1 < powerResult2){
+                if(player1.points > 0){
+                    console.log(`☠️ ${player1.name} perdeu 1 ponto!`)
+                }
+                console.log(`🏅 ${player2.name} venceu a batalha!`)
+            }
         }
 
         if(totalTestSkill1 > totalTestSkill2){
-            player1.points++;
+            player1.points += 1;
+            console.log(`${player1.name} marcou 1 ponto!`)
         } else if(totalTestSkill1 < totalTestSkill2){
-            player2.points++;
+            player2.points += 1;
+            console.log(`${player2.name} marcou 1 ponto!`)
         } else {
             console.log("EMPATE!");
         }
         console.log("----------------------------------------------------------------");
-
     }
+}
+
+async function winnerRace(player1, player2){
+    console.log("Resultado final:")
+    console.log(`${player1.name}: ${player1.points} ponto(s)`)
+    console.log(`${player2.name}: ${player2.points} ponto(s)`)
+
+    player1.points > player2.points ? console.log(`${player1.name} venceu a corrida! Parabéns! 🏆`) : ""
+    player1.points < player2.points ? console.log(`${player2.name} venceu a corrida! Parabéns! 🏆`) : ""
+    player1.points === player2.points ? console.log(`EMPATE FINAL! 🏳️`) : ""
+
 }
 
 //função auto-invocável (funcao ... )() 
@@ -97,6 +130,7 @@ async function playRaceEngine(player1, player2) {
         `🏁 Corrida entre ${player1.name} e ${player2.name} começando ... 🚗\n`
     );
 
-    await playRaceEngine(player1, player2);
+    await playRaceEngine(player1, player2);4
+    await winnerRace(player1, player2)
 
 })() 
